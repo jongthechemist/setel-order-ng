@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>Confirm order</h2>
+<mat-dialog-content class="mat-typography">
+  <ul class="order-list">
+    <li *ngFor="let item of data.orderList | async">
+      <span>{{ item.name }}</span>
+      <span>RM{{ item.price }}</span>
+    </li>
+  </ul>
+  <footer>
+    <h2>
+      <span>Total: </span>
+      <span>RM{{ data.totalPrice | async | number:'1.2-2' }}</span>
+    </h2>
+  </footer>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button [mat-dialog-close]="true" color="primary">Submit</button>
+</mat-dialog-actions>

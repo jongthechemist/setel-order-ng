@@ -1,0 +1,5 @@
+<mat-chip-list>
+  <mat-chip [color]="getColor() | async" [selected]="(status | async) !== 'CREATED'">
+    {{ status | async }}
+  </mat-chip>
+</mat-chip-list>

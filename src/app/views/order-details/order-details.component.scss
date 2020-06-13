@@ -1,0 +1,8 @@
+h2, h3 {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+}
+table {
+  width: 100%;
+  margin-bottom: 20px;
+}

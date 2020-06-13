@@ -1,0 +1,15 @@
+.order-list {
+  padding: 20px 0;
+  > * {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+footer > * {
+  display: flex;
+  justify-content: space-between;
+}
+li {
+  list-style: none;
+  padding: 0;
+}

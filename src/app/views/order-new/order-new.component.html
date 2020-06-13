@@ -1,0 +1,92 @@
+<app-view-base header="New Order">
+  <form>
+    <fieldset [disabled]="!(canEdit() | async)">
+      <mat-form-field appearance="outline">
+        <mat-label>Select Inventory</mat-label>
+        <mat-select [formControl]="inventorySelectionControl">
+          <mat-select-trigger>
+            {{ inventorySelectionControl.value.name }} - RM{{
+              inventorySelectionControl.value.price
+            }}
+          </mat-select-trigger>
+          <mat-option
+            *ngFor="let item of inventoryList | async | sortBy: 'asc':'name'"
+            [value]="item"
+            >{{ item.name }} - RM{{ item.price }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="addOrderItem()"
+          [disabled]="canAdd()"
+        >
+          + Add to order
+        </button>
+      </div>
+    </fieldset>
+    <fieldset [disabled]="!(canEdit() | async)">
+      <label>
+        <span>Items:</span>
+      </label>
+
+      <table
+        mat-table
+        [dataSource]="orderList"
+        class="mat-elevation-z1"
+      >
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef>No.</th>
+          <td mat-cell *matCellDef="let item; let rowIndex = index">
+            {{ rowIndex + 1 }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="item">
+          <th mat-header-cell *matHeaderCellDef>Item</th>
+          <td
+            mat-cell
+            *matCellDef="let item; let rowIndex = index"
+          >
+            {{ item.name }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef>Price</th>
+          <td mat-cell *matCellDef="let item">{{ item.price }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let item; let rowIndex = index">
+            <button
+              mat-raised-button
+              color="warn"
+              (click)="removeOrderItem(rowIndex)"
+            >
+              - Remove from order
+            </button>
+          </td>
+        </ng-container>
+
+        <tr
+          mat-header-row
+          *matHeaderRowDef="['no', 'item', 'price', 'action']"
+        ></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: ['no', 'item', 'price', 'action']"
+        ></tr>
+      </table>
+    </fieldset>
+    <footer>
+      <h2>Total: RM{{ totalPrice | async | number:'1.2-2' }}</h2>
+      <button  mat-raised-button color="primary" [disabled]="!(canSubmit() | async)" (click)="openConfirmDialog()">
+        Submit Order
+      </button>
+    </footer>
+  </form>
+</app-view-base>

@@ -1,0 +1,18 @@
+form {
+  display: flex;
+  flex-direction: column;
+  fieldset {
+    border: none;
+    padding: 0 0 40px;
+  }
+  footer {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+table {
+  width: 100%;
+}
+.mat-form-field {
+  display: block;
+}

@@ -1,0 +1,50 @@
+<app-view-base header="Order Details">
+  <h2>
+    <span>Order ID:</span> <span>{{ orderUuid }}</span>
+  </h2>
+  <ng-container *ngIf="order">
+    <h3>
+      <span>User:</span> <span>{{ order.createdBy }}</span>
+    </h3>
+    <h3>
+      <span>Date:</span> <span>{{ order.createdDate | date: "medium" }}</span>
+    </h3>
+    <h3>
+      <span>Total Amount:</span> <span>RM{{ order.total }}</span>
+    </h3>
+    <h3>
+      <span>Status:</span>
+      <span><app-status [orderUuid]="order.uuid"></app-status></span>
+    </h3>
+    <h3><span>Items:</span></h3>
+    <table mat-table [dataSource]="order.items" class="mat-elevation-z8">
+      <ng-container matColumnDef="no">
+        <th mat-header-cell *matHeaderCellDef>No.</th>
+        <td mat-cell *matCellDef="let item">
+          {{ order.items.indexOf(item) + 1 }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="item">
+        <th mat-header-cell *matHeaderCellDef>Item</th>
+        <td mat-cell *matCellDef="let item">{{ item.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef>Price</th>
+        <td mat-cell *matCellDef="let item">{{ item.price }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['no', 'item', 'price']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['no', 'item', 'price']"></tr>
+    </table>
+    <button
+      *ngIf="order.status !== 'CANCELLED'"
+      mat-raised-button
+      (click)="cancelOrder()"
+      color="warn"
+    >
+      Cancel Order
+    </button>
+  </ng-container>
+</app-view-base>
