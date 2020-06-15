@@ -32,7 +32,6 @@ export class OrderListComponent implements OnInit {
   displayedColumns: string[] = [
     'no',
     'items',
-    'user',
     'date',
     'status',
     'action',

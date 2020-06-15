@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  BASE_API_URL: 'http://localhost:3000'
+  BASE_API_URL: 'https://us-central1-setel-order-portal.cloudfunctions.net/api'
 };
 
 /*
