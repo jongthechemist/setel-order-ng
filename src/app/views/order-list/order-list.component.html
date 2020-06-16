@@ -13,7 +13,7 @@
     <ng-container matColumnDef="items">
       <th mat-header-cell *matHeaderCellDef>Order Items</th>
       <td mat-cell *matCellDef="let order">
-        <strong>Total: RM{{ order.total | number:'1.2-2' }}</strong>
+        <strong>Total: RM{{ order.total | number: "1.2-2" }}</strong>
         <ul>
           <li *ngFor="let item of order.items">
             {{ item.name }} - RM{{ item.price }}
@@ -24,7 +24,9 @@
 
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef>Date</th>
-      <td mat-cell *matCellDef="let order">{{ order.createdDate | date:'medium' }}</td>
+      <td mat-cell *matCellDef="let order">
+        {{ order.createdDate | date: "medium" }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="status">
@@ -40,15 +42,25 @@
         <a [routerLink]="['/details/' + order.uuid]">See Details</a>
       </td>
     </ng-container>
-    
+
     <ng-container matColumnDef="cancel">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let order">
-        <button *ngIf="order.status !== 'CANCELLED'" mat-raised-button color="warn" (click)="cancelOrder(order.uuid)">Cancel</button>
+        <button
+          *ngIf="order.status !== 'CANCELLED'"
+          mat-raised-button
+          color="warn"
+          (click)="cancelOrder(order.uuid)"
+        >
+          Cancel
+        </button>
       </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
+  <div *ngIf="(orderListStatus | async) === 'SUBMITTING'" class="mat-spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
 </app-view-base>

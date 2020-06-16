@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderDto, OrderStatus } from 'src/app/models/order.model';
 import { Store, select } from '@ngrx/store';
-import { OrderState } from 'src/app/store/order/order.reducer';
+import { OrderState, FetchStatus } from 'src/app/store/order/order.reducer';
 import {
   startGetOrderList,
   cancelOrder,
 } from 'src/app/store/order/order.action';
 import { Observable } from 'rxjs';
-import { orderListSelector } from 'src/app/store/order/order.selectors';
+import {
+  orderListSelector,
+  fetchOrderListStatusSelector,
+} from 'src/app/store/order/order.selectors';
 import { InventoryItem } from 'src/app/models/inventory.model';
 import { loadInventoryList } from 'src/app/store/inventory/inventory.action';
 import { MatDialog } from '@angular/material/dialog';
@@ -38,12 +41,14 @@ export class OrderListComponent implements OnInit {
     'cancel',
   ];
   orderList: Observable<OrderListItem[]>;
+  orderListStatus: Observable<FetchStatus>;
 
   constructor(
     private store: Store<{ order: OrderState; inventory: InventoryItem[] }>,
     private dialog: MatDialog
   ) {
     this.orderList = store.pipe(select(orderListSelector));
+    this.orderListStatus = store.pipe(select(fetchOrderListStatusSelector));
   }
 
   ngOnInit(): void {

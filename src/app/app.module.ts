@@ -12,6 +12,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -63,6 +64,7 @@ import { CancelOrderDialogComponent } from './components/cancel-order-dialog/can
     MatButtonModule,
     MatDialogModule,
     MatChipsModule,
+    MatProgressSpinnerModule,
     StoreModule.forRoot({ order: orderReducer, inventory: inventoryReducer }),
     EffectsModule.forRoot([InventoryEffects, OrderEffects]),
   ],

@@ -2,8 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import { InventoryItem } from 'src/app/models/inventory.model';
 import {
   OrderDto,
-  OrderStatus,
-  CreateOrderDto,
+  OrderStatus
 } from 'src/app/models/order.model';
 
 export const addNewOrderItem = createAction(

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 import { Store, select } from '@ngrx/store';
-import { OrderState } from '../../store/order/order.reducer';
+import { OrderState, FetchStatus } from '../../store/order/order.reducer';
 import {
   addNewOrderItem,
   removeNewOrderItem,
@@ -36,7 +36,7 @@ export class OrderNewComponent implements OnInit {
 
   orderList: Observable<{ itemId: string; name: string; price: number }[]>;
   totalPrice: Observable<number>;
-  orderSubmissionStatus: Observable<'NEW' | 'SUBMITTING' | 'SUCCESS'>;
+  orderSubmissionStatus: Observable<FetchStatus>;
 
   constructor(
     private store: Store<{ order: OrderState; inventory: InventoryItem[] }>,
@@ -72,7 +72,9 @@ export class OrderNewComponent implements OnInit {
   }
 
   canSubmit() {
-    return this.orderList.pipe(map((value) => value.length > 0));
+    return this.orderList.pipe(
+      map((value) => value.length > 0)
+    );
   }
 
   addOrderItem() {

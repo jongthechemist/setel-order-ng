@@ -1,6 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import { OrderState } from './order.reducer';
 import { InventoryItem } from 'src/app/models/inventory.model';
+import { OrderStatus } from 'src/app/models/order.model';
 
 export const orderListSelector = createSelector(
   (state: { order: OrderState; inventory: InventoryItem[] }) => state.order,
@@ -25,6 +26,11 @@ export const orderListSelector = createSelector(
       };
     });
   }
+);
+
+export const fetchOrderListStatusSelector = createSelector(
+  (state: { order: OrderState }) => state.order,
+  (order) => order.fetchOrderListStatus
 );
 
 export const orderDetailsSelector = createSelector(

@@ -32,11 +32,7 @@
         <span>Items:</span>
       </label>
 
-      <table
-        mat-table
-        [dataSource]="orderList"
-        class="mat-elevation-z1"
-      >
+      <table mat-table [dataSource]="orderList" class="mat-elevation-z1">
         <ng-container matColumnDef="no">
           <th mat-header-cell *matHeaderCellDef>No.</th>
           <td mat-cell *matCellDef="let item; let rowIndex = index">
@@ -46,10 +42,7 @@
 
         <ng-container matColumnDef="item">
           <th mat-header-cell *matHeaderCellDef>Item</th>
-          <td
-            mat-cell
-            *matCellDef="let item; let rowIndex = index"
-          >
+          <td mat-cell *matCellDef="let item; let rowIndex = index">
             {{ item.name }}
           </td>
         </ng-container>
@@ -83,10 +76,19 @@
       </table>
     </fieldset>
     <footer>
-      <h2>Total: RM{{ totalPrice | async | number:'1.2-2' }}</h2>
-      <button  mat-raised-button color="primary" [disabled]="!(canSubmit() | async)" (click)="openConfirmDialog()">
+      <h2>Total: RM{{ totalPrice | async | number: "1.2-2" }}</h2>
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="
+          !(canSubmit() | async) ||
+          (orderSubmissionStatus | async) === 'SUBMITTING'
+        "
+        (click)="openConfirmDialog()"
+      >
         Submit Order
       </button>
     </footer>
+    <mat-spinner *ngIf="(orderSubmissionStatus | async) === 'SUBMITTING'"></mat-spinner>
   </form>
 </app-view-base>

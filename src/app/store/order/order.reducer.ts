@@ -8,6 +8,7 @@ import {
   getOrderDetails,
   getOrderStatus,
   startSubmitOrder,
+  startGetOrderList,
 } from './order.action';
 import {
   OrderItemDto,
@@ -15,13 +16,16 @@ import {
   OrderStatus,
 } from 'src/app/models/order.model';
 
+export type FetchStatus = 'NEW' | 'SUBMITTING' | 'SUCCESS'
+
 export interface OrderState {
   newOrder: OrderItemDto[];
   orderList: string[];
   orderDetails: { [key: string]: OrderDto };
   orderStatus: { [key: string]: OrderStatus };
   newOrderId: string;
-  submitOrderStatus: 'NEW' | 'SUBMITTING' | 'SUCCESS';
+  submitOrderStatus: FetchStatus;
+  fetchOrderListStatus: FetchStatus;
 }
 
 const initialState: OrderState = {
@@ -30,6 +34,7 @@ const initialState: OrderState = {
   orderDetails: {},
   orderStatus: {},
   newOrderId: '',
+  fetchOrderListStatus: 'NEW',
   submitOrderStatus: 'NEW',
 };
 
@@ -60,9 +65,13 @@ const _orderReducer = createReducer<OrderState>(
     newOrderId: action.order.uuid,
     submitOrderStatus: 'SUCCESS',
   })),
+  on(startGetOrderList, (state, action) => ({
+    ...state,
+    fetchOrderListStatus: 'SUBMITTING',
+  })),
   on(getOrderList, (state, action) => ({
     ...state,
-    orderList: action.orders.map(item => item.uuid),
+    orderList: action.orders.map((item) => item.uuid),
     orderStatus: action.orders.reduce(
       (acc, item) => ({ ...acc, [item.uuid]: item.status }),
       {}
@@ -71,6 +80,7 @@ const _orderReducer = createReducer<OrderState>(
       (acc, item) => ({ ...acc, [item.uuid]: item }),
       {}
     ),
+    fetchOrderListStatus: 'SUCCESS',
   })),
   on(getOrderDetails, (state, action) => ({
     ...state,
@@ -80,8 +90,8 @@ const _orderReducer = createReducer<OrderState>(
     },
     orderStatus: {
       ...state.orderStatus,
-      [action.order.uuid]: action.order.status
-    }
+      [action.order.uuid]: action.order.status,
+    },
   })),
   on(getOrderStatus, (state, action) => ({
     ...state,
